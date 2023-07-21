@@ -1,0 +1,5 @@
+Flask
+Flask-SQLAlchemy
+gunicorn
+PyMySQL
+python-socketio[client]

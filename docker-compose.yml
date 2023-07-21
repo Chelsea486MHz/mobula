@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./frontend
+    environment:
+      DATABASE_NAME: mobula
+      DATABASE_HOST: db
+      DATABASE_USER: user-mobula
+      DATABASE_PASS: super-secure-pw
+      DALAI_HOST: 172.17.0.1
+      DALAI_PORT: 3000
+      DALAI_MODEL: alpaca.7B
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+      - dalai
+
+  dalai:
+    build: ./dalai
+    volumes:
+      - ./dalai/models/alpaca:/root/dalai/alpaca
+      - ./dalai/models/llama:/root/dalai/llama
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: mobula
+      MYSQL_USER: user-mobula
+      MYSQL_PASSWORD: super-secure-pw
+      MYSQL_ROOT_PASSWORD: super-secure-pw-but-for-root
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql

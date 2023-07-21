@@ -8,7 +8,7 @@ services:
       DATABASE_HOST: db
       DATABASE_USER: user-mobula
       DATABASE_PASS: super-secure-pw
-      DALAI_HOST: 172.17.0.1
+      DALAI_HOST: dalai
       DALAI_PORT: 3000
       DALAI_MODEL: alpaca.7B
     ports:

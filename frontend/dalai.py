@@ -1,11 +1,11 @@
-import sys
-import os
 import socketio
 import time as time
 import config
 
+
 class NoServerException(Exception):
     pass
+
 
 class Dalai:
 

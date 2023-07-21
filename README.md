@@ -1,3 +1,9 @@
+![Mobula logo](logo.png)
+
+# Mobula is a self-hosted AI solution.
+
+Quickly deploy web-based Dalai instances with token-based authentication using a secure Flask-based stack.
+
 # Usage
 
 Generate an authentication token:
@@ -16,9 +22,38 @@ Deploy with Docker Compose:
 
 `$ docker compose up -d`
 
-Send requests over HTTP:
+Send prompts over HTTP:
 
 `$ curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: YOUR_TOKEN" -d "prompt=How are you?" http://localhost:8000/completion`
+
+# Configuration
+
+Mobula is configured to use the Alpaca 7B model by default, on a single thread. To change the thread count, edit `app.py`:
+
+```
+    # Generate the request object from the prompt
+    dalairequest = Dalai.generate_request(
+        prompt=prompt,
+        model=config.DALAI_MODEL,
+        threads=1
+    )
+```
+
+To change the model, change the variable in `docker-compose.yml`:
+
+```
+    environment:
+      DALAI_MODEL: alpaca.7B
+```
+
+Then edit the `./dalai/Dockerfile` to install your model:
+
+```
+# Install dalai and its dependencies
+RUN npm install dalai && \
+    npx dalai alpaca setup && \
+    npx dalai alpaca install 7B
+```
 
 # Credits
 

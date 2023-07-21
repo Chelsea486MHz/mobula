@@ -18,7 +18,7 @@ Dalai = dalai.Dalai()
 # Represents the entries in the database
 class Token(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    token = db.Column(db.String(48), unique=True, nullable=False)
+    token = db.Column(db.String(64), unique=True, nullable=False)
 
 
 @app.route('/completion', methods=['POST'])
@@ -31,6 +31,7 @@ def runCompletion():
 
     # Validate the hashed authorization token against the database
     hashed_token = hashlib.sha256(token.encode()).hexdigest()
+    print(hashed_token)
     if not Token.query.filter_by(token=hashed_token).first():
         return 'Unauthorized', 401
 

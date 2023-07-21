@@ -17,7 +17,6 @@ Dalai = dalai.Dalai()
 
 # Represents the entries in the database
 class Token(db.Model):
-    __tablename__ = 'tokens'
     id = db.Column(db.Integer, primary_key=True)
     token = db.Column(db.String(48), unique=True, nullable=False)
 

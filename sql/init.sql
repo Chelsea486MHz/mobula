@@ -1,10 +1,8 @@
-CREATE DATABASE mobula;
-
 USE mobula;
 
-CREATE TABLE IF NOT EXISTS tokens (
-    id SERIAL PRIMARY KEY,
-    token VARCHAR(48) UNIQUE NOT NULL
+CREATE TABLE IF NOT EXISTS token (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  token VARCHAR(48) NOT NULL
 );
 
-INSERT INTO tokens (token) VALUES ('replace-this-token');
+INSERT INTO token (token) VALUES ('YOUR_TOKEN');

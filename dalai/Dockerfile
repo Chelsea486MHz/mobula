@@ -28,9 +28,5 @@ RUN npm install dalai && \
     npx dalai alpaca setup && \
     npx dalai alpaca install 7B
 
-# Install the server
-COPY server.js .
-
-
 # Run the dalai server
 CMD [ "npx", "dalai", "serve" ]

@@ -1,8 +1,16 @@
 # Usage
 
-Edit `sql/init.sql` to add your authentication token. Generate one with this command:
+Generate an authentication token:
 
 `$ python3 -c 'import secrets; print(secrets.token_urlsafe(32));'`
+
+Hash the token:
+
+`$ python3 -c 'import hashlib; print(hashlib.sha256("YOUR_TOKEN".encode()).hexdigest());'`
+
+Edit `sql/init.sql` to insert the hash in the database:
+
+`INSERT INTO token (token) VALUES ('YOUR_TOKEN');`
 
 Deploy with Docker Compose:
 

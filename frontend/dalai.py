@@ -23,41 +23,41 @@ class Dalai:
                 self.sio.connect(config.DALAI_URI)
                 break
             except Exception as e:
-                print("Retrying in 1 second...")
+                print(f"Connection failed: {e}. Retrying in 1 second...")
                 time.sleep(1)
 
         print('Connected')
         self.call_backs()
 
     def call_backs(self):
-            @self.sio.on('result')
-            def on_request(data):
-                # Get this request ID
-                req_id = data.get('request', {}).get('id')
-                new_word = data.get('response', '')
-                self.CURRENT_ID = req_id
+        @self.sio.on('result')
+        def on_request(data):
+            # Get this request ID
+            req_id = data.get('request', {}).get('id')
+            new_word = data.get('response', '')
+            self.CURRENT_ID = req_id
 
-                # And if it's not already in results
-                if req_id not in self.RESULTS:
-                    # then initially stuff it with this data
-                    self.RESULTS[req_id] = data
-                    # and add this request id to the last
-                    self.REQ_IDS.append(req_id)
-                # If it's already in results
-                else:
-                    # then simply add the new response word
-                    self.RESULTS[req_id]['response'] += new_word
+            # And if it's not already in results
+            if req_id not in self.RESULTS:
+                # then initially stuff it with this data
+                self.RESULTS[req_id] = data
+                # and add this request id to the last
+                self.REQ_IDS.append(req_id)
+            # If it's already in results
+            else:
+                # then simply add the new response word
+                self.RESULTS[req_id]['response'] += new_word
 
-                self.MOST_RECENT_WORD = str(new_word).strip()
-                if self.MOST_RECENT_WORD == "<end>" or self.MOST_RECENT_WORD == "\n":
-                    self.DONE = True
-                    if self.REQ_IDS and self.RESULTS:
-                        # get latest id
-                        req_id = self.REQ_IDS[-1]
-                        # get result dictionary from latest id as key
-                        result = self.RESULTS[req_id]
-                        # return result
-                        self.RESULT = result
+            self.MOST_RECENT_WORD = str(new_word).strip()
+            if self.MOST_RECENT_WORD == "<end>" or self.MOST_RECENT_WORD == "\n":
+                self.DONE = True
+                if self.REQ_IDS and self.RESULTS:
+                    # get latest id
+                    req_id = self.REQ_IDS[-1]
+                    # get result dictionary from latest id as key
+                    result = self.RESULTS[req_id]
+                    # return result
+                    self.RESULT = result
 
     def generate(self, request):
         self.sio.emit('request', request)

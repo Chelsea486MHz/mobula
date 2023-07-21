@@ -11,4 +11,4 @@ DALAI_HOST = os.environ.get('DALAI_HOST', 'localhost')
 DALAI_PORT = os.environ.get('DALAI_PORT', '3000')
 DALAI_MODEL = os.environ.get('DALAI_MODEL', 'alpaca.7B')
 
-DALAI_URI = 'http://' + DALAI_HOST + ':' + DALAI_PORT
+DALAI_URI = 'ws://' + DALAI_HOST + ':' + DALAI_PORT

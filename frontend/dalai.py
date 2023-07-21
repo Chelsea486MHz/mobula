@@ -3,10 +3,6 @@ import time as time
 import config
 
 
-class NoServerException(Exception):
-    pass
-
-
 class Dalai:
 
     sio = socketio.Client()
@@ -19,35 +15,38 @@ class Dalai:
         self.DONE = False
         self.RESULT = None
         self.setup()
-    
-    def setup(self):
-        # try to connect
-        try:
-            print('Connecting to ' + config.DALAI_URI)
-            self.sio.connect(config.DALAI_URI)
-        except Exception as e:
-            raise NoServerException("NoServerException: No server was found, please make sure you have initiated your Dalai server")
 
+    def setup(self):
+        while True:
+            try:
+                print('Connecting to ' + config.DALAI_URI)
+                self.sio.connect(config.DALAI_URI)
+                break
+            except Exception as e:
+                print("Retrying in 1 second...")
+                time.sleep(1)
+
+        print('Connected')
         self.call_backs()
 
     def call_backs(self):
             @self.sio.on('result')
             def on_request(data):
                 # Get this request ID
-                req_id = data.get('request',{}).get('id')
-                new_word = data.get('response','')
+                req_id = data.get('request', {}).get('id')
+                new_word = data.get('response', '')
                 self.CURRENT_ID = req_id
-                
+
                 # And if it's not already in results
-                if not req_id in self.RESULTS:
+                if req_id not in self.RESULTS:
                     # then initially stuff it with this data
                     self.RESULTS[req_id] = data
-                    # and add this request id to the last 
+                    # and add this request id to the last
                     self.REQ_IDS.append(req_id)
                 # If it's already in results
                 else:
                     # then simply add the new response word
-                    self.RESULTS[req_id]['response'] += new_word    
+                    self.RESULTS[req_id]['response'] += new_word
 
                 self.MOST_RECENT_WORD = str(new_word).strip()
                 if self.MOST_RECENT_WORD == "<end>" or self.MOST_RECENT_WORD == "\n":
@@ -75,11 +74,11 @@ class Dalai:
         return self.RESULT
 
     def generate_request(self, prompt, model, id='0', n_predict=128, repeat_last_n=64, repeat_penalty=1.3, seed=-1, temp=0.5, threads=4, top_k=40, top_p=0.9):
-        request = {'debug': False, 'id':id, 'model':model, 'models':[model], 'n_predict':n_predict, 'prompt':prompt, 'repeat_last_n':repeat_last_n, 'repeat_penalty':repeat_penalty, 'seed':seed, 'temp':temp, 'threads':threads, 'top_k':top_k, 'top_p':top_p}
+        request = {'debug': False, 'id': id, 'model': model, 'models': [model], 'n_predict': n_predict, 'prompt': prompt, 'repeat_last_n': repeat_last_n, 'repeat_penalty': repeat_penalty, 'seed': seed, 'temp': temp, 'threads': threads, 'top_k': top_k, 'top_p': top_p}
         return request
-    
+
     def request(self, prompt, prettify=True):
-        if prettify == False:
+        if prettify is False:
             return self.generate(prompt)
 
         else:
@@ -87,6 +86,6 @@ class Dalai:
             response = response.replace("\n", "")
             response = response.replace("\r", "")
             response = response.replace("<end>", "")
-            if not response.endswith(".") :
+            if not response.endswith("."):
                 response += "."
             return response

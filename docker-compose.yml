@@ -9,7 +9,6 @@ services:
       DATABASE_USER: user-mobula
       DATABASE_PASS: super-secure-pw
       DALAI_HOST: dalai
-      DALAI_PORT: 3000
       DALAI_MODEL: alpaca.7B
     ports:
       - 8000:8000
@@ -19,9 +18,6 @@ services:
 
   dalai:
     build: ./dalai
-    volumes:
-      - ./dalai/models/alpaca:/root/dalai/alpaca
-      - ./dalai/models/llama:/root/dalai/llama
 
   db:
     image: mariadb

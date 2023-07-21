@@ -33,4 +33,4 @@ COPY server.js .
 
 
 # Run the dalai server
-CMD [ "node", "server.js" ]
+CMD [ "npx", "dalai", "serve" ]

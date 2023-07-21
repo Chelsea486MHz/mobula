@@ -38,8 +38,11 @@ def runCompletion():
     # Get the prompt
     prompt = request.form.get('prompt')
 
+    # Generate the request object from the prompt
+    dalairequest = Dalai.generate_request(prompt=prompt, model=config.DALAI_MODEL)
+
     # Return the prompt completion
-    return Dalai.request(prompt)
+    return Dalai.request(dalairequest)
 
 
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ RUN apt-get install -y nodejs
 # Install dalai and its dependencies
 RUN npm install dalai && \
     npx dalai alpaca setup && \
-    npx dalai alpaca install 7B
+    npx dalai llama install 7B
 
 # Run the dalai server
 CMD [ "npx", "dalai", "serve" ]

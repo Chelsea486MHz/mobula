@@ -9,7 +9,7 @@ services:
       DATABASE_USER: user-mobula
       DATABASE_PASS: super-secure-pw
       DALAI_HOST: dalai
-      DALAI_MODEL: alpaca.7B
+      DALAI_MODEL: llama.7B
     ports:
       - 8000:8000
     depends_on:

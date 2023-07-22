@@ -40,7 +40,7 @@ def runCompletion():
     print('Request authenticated')
 
     # Get the prompt
-    prompt = request.form.get('prompt')
+    prompt = request.form.get('text')
 
     print(f'Prompt: {prompt}')
 

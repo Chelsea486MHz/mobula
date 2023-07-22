@@ -28,6 +28,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PIP_NO_CACHE_DIR 1
 
 # App settings
+ENV TIMEOUT 120
 ENV DEBUG False
 WORKDIR $APP_DIR
 EXPOSE 8000
@@ -47,4 +48,4 @@ RUN addgroup -S $APP_USER && \
 
 # Run the app
 USER $APP_USER
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--timeout", "$TIMEOUT", "app:app"]

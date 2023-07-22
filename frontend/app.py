@@ -29,13 +29,20 @@ def runCompletion():
     if not token:
         return 'Unauthorized', 401
 
+    print('Received request')
+
     # Validate the hashed authorization token against the database
     hashed_token = hashlib.sha256(token.encode()).hexdigest()
     if not Token.query.filter_by(token=hashed_token).first():
+        print('Request denied')
         return 'Unauthorized', 401
+
+    print('Request authenticated')
 
     # Get the prompt
     prompt = request.form.get('prompt')
+
+    print(f'Prompt: {prompt}')
 
     # Generate the request object from the prompt
     dalairequest = Dalai.generate_request(
@@ -44,8 +51,13 @@ def runCompletion():
         threads=1
     )
 
+    # Run completion
+    completion = Dalai.request(dalairequest)
+
+    print(f'Completion: {completion}')
+
     # Return the prompt completion
-    return Dalai.request(dalairequest)
+    return completion
 
 
 if __name__ == '__main__':

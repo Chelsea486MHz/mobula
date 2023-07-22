@@ -31,7 +31,6 @@ def runCompletion():
 
     # Validate the hashed authorization token against the database
     hashed_token = hashlib.sha256(token.encode()).hexdigest()
-    print(hashed_token)
     if not Token.query.filter_by(token=hashed_token).first():
         return 'Unauthorized', 401
 

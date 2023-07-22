@@ -28,7 +28,7 @@ Send prompts over HTTP:
 
 # Configuration
 
-Mobula is configured to use the Alpaca 7B model by default, on a single thread. To change the thread count, edit `app.py`:
+Mobula is configured to use the LLAMA 7B model by default, on four threads. To change the thread count, edit `app.py`:
 
 ```
     # Generate the request object from the prompt

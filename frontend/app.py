@@ -48,7 +48,7 @@ def runCompletion():
     dalairequest = Dalai.generate_request(
         prompt=prompt,
         model=config.DALAI_MODEL,
-        threads=1
+        threads=4
     )
 
     # Run completion

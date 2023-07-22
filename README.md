@@ -24,7 +24,7 @@ Deploy with Docker Compose:
 
 Send prompts over HTTP:
 
-`$ curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: YOUR_TOKEN" -d "prompt=How are you?" http://localhost:8000/completion`
+`$ curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: YOUR_TOKEN" -d "text=How are you?" http://localhost:8000/completion`
 
 # Configuration
 
